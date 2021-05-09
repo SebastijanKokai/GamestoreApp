@@ -1,0 +1,16 @@
+<html>
+<head>
+  <title>Gamestore</title>
+</head>
+<body>
+  {% if latest_games_list %}
+      <ul>
+      {% for game in latest_games_list %}
+          <li><a href="/gamestore/{{ game.gameid }}/">{{ game.gamename }}</a></li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>No games are available.</p>
+  {% endif %}
+</body>
+</html>
