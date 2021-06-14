@@ -50,7 +50,7 @@ class Playstore(models.Model):
     playstorerow = models.AutoField(db_column='playStoreRow', primary_key=True)  # Field name made lowercase.
     game = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='game', null=True)  # Field name made lowercase.
     gameprice = models.DecimalField(db_column='gamePrice', max_digits=18, decimal_places=2)  # Field name made lowercase.
-    discount = models.FloatField(blank=True, null=True)
+    discount = models.FloatField(db_column='discount', blank=True, null=True)
     dateadded = models.DateField(db_column='dateAdded', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:

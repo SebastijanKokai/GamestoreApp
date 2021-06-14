@@ -5,14 +5,14 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 
 from gamestore.models import Game, Gamegenre, Genre, Playstore
-from gamestore.serializers import GameSerializer, GenreSerializer, PlaystoreSerializer
+from gamestore.serializers import GameSerializer, GenreSerializer, PlaystoreCreateSerializer, PlaystoreSerializer
 from rest_framework.decorators import api_view
 
 from django.http import HttpResponse, Http404
 from django.template import loader
 
-import logging
-from django.core import serializers
+# import logging
+# from django.core import serializers
 
 @api_view(['GET', 'POST', 'DELETE'])
 def gamestore(request):
@@ -23,12 +23,37 @@ def gamestore(request):
 
     elif request.method == 'POST':
         gamestore_data = JSONParser().parse(request)
-        # game_data = Game.objects.get(gameid=)
-        playstore_serializer = PlaystoreSerializer(data = gamestore_data)
+        playstore_serializer = PlaystoreCreateSerializer(data = gamestore_data)
         if playstore_serializer.is_valid():
             playstore_serializer.save()
             return JsonResponse(playstore_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(playstore_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        count = Playstore.objects.all().delete()
+        return JsonResponse({'message': 'Games from playstore were deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def gamestoreGame(request, playstore_row):
+    try:
+        playstorerow = Playstore.objects.get(playstorerow=playstore_row)
+    except Playstore.DoesNotExist:
+        return JsonResponse({'message': 'The game does not exist in the playstore'}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        playstore_serializer = PlaystoreSerializer(playstorerow)
+        return JsonResponse(playstore_serializer.data)
+
+    elif request.method == 'PUT':
+        playstore_data = JSONParser().parse(request)
+        playstore_serializer = PlaystoreCreateSerializer(playstorerow, data=playstore_data)
+        if playstore_serializer.is_valid():
+            playstore_serializer.save()
+            return JsonResponse(playstore_serializer.data)
+        return JsonResponse(playstore_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        playstorerow.delete()
+        return JsonResponse({'message': 'Game was deleted successfully from the playstore!'}, status=status.HTTP_204_NO_CONTENT)
 
 
 

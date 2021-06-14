@@ -10,7 +10,7 @@ class GenreSerializer(serializers.ModelSerializer):
 
 class GameSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(read_only=True, many=True)
-    gameid = serializers.IntegerField()
+    # gameid = serializers.IntegerField()
 
     class Meta:
         model = Game
@@ -21,7 +21,7 @@ class GameSerializer(serializers.ModelSerializer):
         'genres')
 
 class PlaystoreSerializer(serializers.ModelSerializer):
-    game = GameSerializer(read_only=True, many=True)
+    game = GameSerializer(read_only=True)
 
     class Meta:
         model = Playstore
@@ -30,9 +30,11 @@ class PlaystoreSerializer(serializers.ModelSerializer):
         'discount',
         'dateadded')
 
-    def create(self, validated_data):
-        game_data = validated_data.pop('game')
-        playstore = Playstore.objects.create(**validated_data)
-        for data in game_data:
-            Game.objects.create(game=game, **data)
-        return playstore
+class PlaystoreCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Playstore
+        fields = ('game',
+        'gameprice',
+        'discount',
+        'dateadded')
