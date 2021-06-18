@@ -20,6 +20,7 @@ class Friendlist(models.Model):
         db_table = 'friendlist'
         unique_together = (('user', 'friend'),)
 
+
 class Wishlist(models.Model):
     gameid = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='gameID')  # Field name made lowercase.
     userid = models.ForeignKey(AuthUser, on_delete=models.CASCADE, db_column='userID')  # Field name made lowercase.
@@ -39,3 +40,4 @@ class Gamelibrary(models.Model):
         managed = True
         db_table = 'gamelibrary'
         unique_together = (('gameid', 'userid'),)
+

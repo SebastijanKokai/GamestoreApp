@@ -103,10 +103,10 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gamestore_db_erp',
-        'USER': 'sebastijan',
+        'NAME': 'gamestore',
+        'USER': 'root',
         'PASSWORD': 'Subotica!024',
-        'HOST': 'db4free.net',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
