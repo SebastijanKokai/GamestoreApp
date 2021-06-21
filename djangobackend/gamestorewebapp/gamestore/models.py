@@ -81,16 +81,16 @@ class Playstorehistory(models.Model):
         db_table = 'playstorehistory'
 
 class Wishlist(models.Model):
-    gameid = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='gameID')  # Field name made lowercase.
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='gameID')  # Field name made lowercase.
     userid = models.ForeignKey(AuthUser, on_delete=models.CASCADE, db_column='userID')  # Field name made lowercase.
 
     class Meta:
         managed = True
         db_table = 'wishlist'
-        unique_together = (('gameid', 'userid'),)
+        unique_together = (('game', 'userid'),)
 
 class Gamelibrary(models.Model):
-    gameid = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='gameID')  # Field name made lowercase.
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, db_column='gameID')  # Field name made lowercase.
     userid = models.ForeignKey(AuthUser, on_delete=models.CASCADE, db_column='userID')  # Field name made lowercase.
     totaltimeplayed = models.IntegerField(db_column='totalTimePlayed', blank=True, null=True)  # Field name made lowercase.
     lasttimeplayed = models.DateField(db_column='lastTimePlayed', blank=True, null=True)  # Field name made lowercase.
@@ -98,5 +98,5 @@ class Gamelibrary(models.Model):
     class Meta:
         managed = True
         db_table = 'gamelibrary'
-        unique_together = (('gameid', 'userid'),)
+        unique_together = (('game', 'userid'),)
 
