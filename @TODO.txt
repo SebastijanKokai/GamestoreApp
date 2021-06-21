@@ -1,0 +1,5 @@
+- Register
+	-> Frontend Form x
+	-> Form Validation
+	-> Dispatch, axios, CORS x
+	-> Backend /auth/register/ x
