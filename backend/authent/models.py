@@ -1,6 +1,11 @@
+# import sys
+# import os
+# import pathlib
+# target_path = pathlib.Path(os.path.abspath(__file__)).parents[3]
+# sys.path.append(target_path)
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from gamestore.models import Game 
+from gamestore.models import Game
 
 class AuthUser(AbstractUser):
     phone_number = models.CharField(max_length=50, blank=True, null=True)

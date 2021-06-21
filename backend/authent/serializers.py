@@ -51,4 +51,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
+        token['first_name'] = user.first_name
+        token['is_staff'] = user.is_staff
+        token['is_superuser'] = user.is_superuser
+        token['is_active'] = user.is_active
         return token

@@ -26,6 +26,7 @@ class Game(models.Model):
     gamename = models.CharField(db_column='gameName', max_length=50)  # Field name made lowercase.
     datereleased = models.DateField(db_column='dateReleased', blank=True, null=True)  # Field name made lowercase.
     gamedescription = models.CharField(db_column='gameDescription', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    gameImgUrl = models.CharField(db_column='gameImgUrl', max_length=500, blank=True, null=True)
     genres = models.ManyToManyField(Genre, through="Gamegenre")
 
     def __str__(self):

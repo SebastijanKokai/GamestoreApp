@@ -18,7 +18,8 @@ class GameSerializer(serializers.ModelSerializer):
         'gamename',
         'datereleased',
         'gamedescription',
-        'genres')
+        'genres',
+        'gameImgUrl')
 
 class PlaystoreSerializer(serializers.ModelSerializer):
     game = GameSerializer(read_only=True)
