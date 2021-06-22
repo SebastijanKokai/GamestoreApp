@@ -62,8 +62,8 @@ class AuthUserGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AuthUser
-        fields = ('id', 'nickname',
-        'user_level')
+        fields = ('id', 'username', 'first_name', 'last_name', 'nickname',
+        'user_level', 'date_joined')
 
 class AuthUserSerializer(serializers.ModelSerializer):
     

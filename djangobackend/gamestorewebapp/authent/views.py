@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
+from datetime import datetime
 
 
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -95,15 +96,20 @@ def getLibraryByUser(request):
 @permission_classes([IsAuthenticated])
 def createLibraryRow(request):
     if request.method == 'POST':
-        userid = request.user.id
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        gameid = body['gameid']
-        gamelibrary_serializer = GameLibrarySerializer(data={"userid": userid, "game": gameid, "totaltimeplayed": 0})
+        try:
+            userid = request.user.id
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            current_date = datetime.today().strftime('%Y-%m-%d')
+            gameid = body['gameid']
+            gamelibrary_serializer = GameLibrarySerializer(data={"userid": userid, "game": gameid, "totaltimeplayed": 0, "lasttimeplayed": current_date})
+        except Exception as e:
+            raise e
         if gamelibrary_serializer.is_valid():
             gamelibrary_serializer.save()
             return JsonResponse(gamelibrary_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(gamelibrary_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
