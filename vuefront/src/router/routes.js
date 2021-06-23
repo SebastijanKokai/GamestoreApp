@@ -7,6 +7,8 @@ import Gamelibrary from "../components/Gamelibrary";
 import Wishlist from "../components/Wishlist";
 import FriendList from "../components/FriendList";
 import Games from "../components/Games";
+import Genres from "../components/Genres";
+import Users from "../components/Users";
 import { store } from "../vuex-store";
 
 function isStaff() {
@@ -67,6 +69,16 @@ const routes = [
     path: "/games",
     component: Games,
     beforeEnter: (to, from, next) => (isStaff() ? next() : next("/login")),
+  },
+  {
+    path: "/genres",
+    component: Genres,
+    beforeEnter: (to, from, next) => (isStaff() ? next() : next("/login")),
+  },
+  {
+    path: "/users",
+    component: Users,
+    beforeEnter: (to, from, next) => (isSuperUser() ? next() : next("/login")),
   },
 ];
 

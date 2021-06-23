@@ -33,7 +33,7 @@
         type="button"
         class="btn btn-primary"
         style="width: 30%"
-        @click="openAddModal()"
+        @click="openAddModal"
       >
         Add Friend
       </button>
@@ -84,6 +84,7 @@ export default {
   methods: {
     addFriend() {
       this.$store.dispatch("addFriend", this.selectedUser);
+      this.closeAddModal();
     },
     deleteFriend(friend_id) {
       this.$store.dispatch("deleteFriend", friend_id);

@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
     user: null,
     users: [],
     games: [],
+    genres: [],
     gamesPlaystore: [],
     libraryGames: [],
     wishListGames: [],
@@ -52,6 +53,9 @@ export const store = new Vuex.Store({
     setGames(state, games) {
       state.games = games;
     },
+    setGenres(state, genres) {
+      state.genres = genres;
+    },
   },
   actions: {
     async logout(context) {
@@ -68,7 +72,7 @@ export const store = new Vuex.Store({
           });
         })
         .then(() => {
-          router.push("/playstore");
+          router.push("/");
         });
     },
     async register({ dispatch }, form) {
@@ -182,6 +186,9 @@ export const store = new Vuex.Store({
     },
     async addGameToPlaystore(context, gameToAdd, game_id) {
       let gameprice = gameToAdd.price * (1 - gameToAdd.discount);
+      console.log(game_id);
+      console.log(gameprice);
+      console.log(gameToAdd.discount);
       const bodyParameters = {
         game: game_id,
         gameprice: gameprice,
@@ -195,29 +202,87 @@ export const store = new Vuex.Store({
           this.dispatch("getAllGamesFromPlaystore");
         });
     },
+    async deleteGameFromPlaystore(context, playstorerow) {
+      const getAPI = createAxiosInstance(this.state.accessToken);
+      await getAPI
+        .delete("gamestore/deleteGameFromPlaystore/" + playstorerow + "/")
+        .then(() => {
+          this.dispatch("getAllGamesFromPlaystore");
+        });
+    },
     async getAllGames(context) {
       const getAPI = createAxiosInstance(this.state.accessToken);
       return await getAPI.get("gamestore/getGames/").then((games) => {
         context.commit("setGames", games.data);
       });
     },
-    async addGame(context) {
+    async addGame(context, gameToAdd) {
+      const getAPI = createAxiosInstance(this.state.accessToken);
+      const bodyParameters = {
+        gamename: gameToAdd.gamename,
+        datereleased: gameToAdd.datereleased,
+        gamedescription: gameToAdd.gamedescription,
+      };
+      return await getAPI
+        .post("gamestore/createGame/", bodyParameters)
+        .then(() => {
+          this.dispatch("getAllGames");
+        });
+    },
+    async modifyGame(context, gameToUpdate) {
+      const getAPI = createAxiosInstance(this.state.accessToken);
+      const bodyParameters = {
+        gamename: gameToUpdate.gamename,
+        datereleased: gameToUpdate.datereleased,
+        gamedescription: gameToUpdate.gamedescription,
+        gameImgUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgqpAoCAiLrhEcMEFLv4_Zk8bLixW1ZrWfrQ&usqp=CAU",
+      };
+      let gameid = null;
+      this.state.games.forEach((game) => {
+        if (game.gamename === gameToUpdate.gamename) {
+          gameid = game.gameid;
+        }
+      });
+      return await getAPI
+        .put("gamestore/modifyGame/" + gameid + "/", bodyParameters)
+        .then(() => {
+          this.dispatch("getAllGames");
+        });
+    },
+    async deleteGame(context, game_id) {
+      const getAPI = createAxiosInstance(this.state.accessToken);
+      return await getAPI
+        .delete("gamestore/deleteGame/" + game_id + "/")
+        .then(() => {
+          this.dispatch("getAllGames");
+        });
+    },
+    async getAllGenres(context) {
+      const getAPI = createAxiosInstance(this.state.accessToken);
+      return await getAPI.get("gamestore/getGenres/").then((genres) => {
+        context.commit("setGenres", genres.data);
+      });
+    },
+    async addGenre(context) {
       const getAPI = createAxiosInstance(this.state.accessToken);
       return await getAPI.get("gamestore/getGames/").then((games) => {
         context.commit("setGames", games.data);
       });
     },
-    async modifyGame(context) {
+    async modifyGenre(context) {
       const getAPI = createAxiosInstance(this.state.accessToken);
       return await getAPI.get("gamestore/getGames/").then((games) => {
         context.commit("setGames", games.data);
       });
     },
-    async deleteGame(context) {
+    async deleteGenre(context, genre_id) {
       const getAPI = createAxiosInstance(this.state.accessToken);
-      return await getAPI.get("gamestore/getGames/").then((games) => {
-        context.commit("setGames", games.data);
-      });
+      return await getAPI
+        .delete("gamestore/deleteGenre/" + genre_id + "/")
+        .then(() => {
+          this.dispatch("getAllGenres");
+        });
     },
   },
 });

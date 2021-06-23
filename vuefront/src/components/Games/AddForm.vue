@@ -1,5 +1,5 @@
 <template>
-  <form action="javascript:void(0);" class="card-body">
+  <form class="card-body">
     Game:
     <select v-model="selectedGame.game" class="form-control" required>
       <option v-for="game in games" :key="game.gameid" :value="game.gamename">{{
@@ -47,15 +47,13 @@ export default {
       this.$store.dispatch(
         "addGameToPlaystore",
         this.selectedGame,
-        this.selectedGame.game.gameid
+        this.selectedGame.game
       );
     },
   },
   mounted() {
     this.$store.dispatch("getAllGames");
-    // this.$store.dispatch("getAllGamesFromPlaystore").then(() => {
-    //   this.gamesToAdd = games.filter((game) => !gamesPlaystore.includes(game));
-    // });
+    this.$store.dispatch("getAllGamesFromPlaystore");
   },
   computed: {
     ...mapState(["games", "gamesPlaystore"]),

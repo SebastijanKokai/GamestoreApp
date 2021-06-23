@@ -5,7 +5,8 @@
       <GameCard
         v-for="game in gamesPlaystore"
         v-bind:key="game.playstorerow"
-        v-bind:game="game"
+        v-bind:game="game.game"
+        v-bind:info="game"
         v-bind:user="user"
       />
     </div>

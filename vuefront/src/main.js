@@ -10,6 +10,7 @@ import Vuex from "vuex";
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+// Vuex store
 import { store } from "./vuex-store";
 // Modals
 import VueModal from "@kouts/vue-modal";
@@ -18,9 +19,10 @@ import "@kouts/vue-modal/dist/vue-modal.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 library.add(faUserSecret);
 library.add(faTrash);
+library.add(faEdit);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 // Modal

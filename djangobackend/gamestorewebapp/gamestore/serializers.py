@@ -25,7 +25,7 @@ class PlaystoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Playstore
-        fields = ('game',
+        fields = ('playstorerow', 'game',
         'gameprice',
         'discount',
         'dateadded')

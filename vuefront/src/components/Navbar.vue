@@ -42,9 +42,9 @@
               user.is_superuser === true
           "
         >
-          <b-nav-item to="/">Users</b-nav-item>
-          <b-nav-item to="/">Games</b-nav-item>
-          <b-nav-item to="/">Genres</b-nav-item>
+          <b-nav-item to="/users">Users</b-nav-item>
+          <b-nav-item to="/games">Games</b-nav-item>
+          <b-nav-item to="/genres">Genres</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
